@@ -34,7 +34,7 @@ list_percentage_currently_positive = list()
 list_percentage_total_tampons = list()
 list_percentage_total_discharged_healed = list()
 list_percentage_total_home_isolation = list()
-
+list_percentage_tampons_positive = list()
 first_run = True
 for date in sorted(dates_list):
     is_in_date = raw_data['data']==date
@@ -80,6 +80,7 @@ for date in sorted(dates_list):
         list_percentage_total_tampons.append(1.0)
         list_percentage_total_discharged_healed.append(1.0)
         list_percentage_total_home_isolation.append(1.0)
+        list_percentage_tampons_positive.append(1.0)
         first_run = False
     else:
         list_percentage_total_case.append(float(total_cases - list_total_cases[-2]) * 100.0 / float (total_cases))
@@ -89,6 +90,7 @@ for date in sorted(dates_list):
         list_percentage_total_tampons.append(float(total_tampons - list_total_tampons[-2]) * 100.0 / float (total_tampons))
         list_percentage_total_discharged_healed.append(float(total_discharged_healed - list_total_discharged_healed[-2]) * 100.0 / float (total_discharged_healed))
         list_percentage_total_home_isolation.append(abs(float(total_home_isolation - list_total_home_isolation[-2])) * 100.0 / float (total_home_isolation))
+        list_percentage_tampons_positive.append(float(total_new_currently_positive) * 100.0 / float(total_tampons))
 
 fig = go.Figure()
 # Create and style traces
@@ -128,8 +130,9 @@ fig_percentages.add_trace(go.Scatter(x=sorted(dates_list), y=list_percentage_tot
                          line=dict(color='brown', width=4)))                        
 fig_percentages.add_trace(go.Scatter(x=sorted(dates_list), y=list_percentage_total_home_isolation, name='Total home isolation',
                          line=dict(color='lime', width=4)))       
+fig_percentages.add_trace(go.Scatter(x=sorted(dates_list), y=list_percentage_tampons_positive, name='Percentange new tampons',
+                         line=dict(color='lime', width=4)))
 
-                         
 # Edit the layout
 fig_percentages.update_layout(title='COVID 19 Percentage Trends',
                    xaxis_title='Day',
